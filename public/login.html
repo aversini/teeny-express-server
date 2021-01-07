@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teeny Static Server</title>
+  <style>
+    body {
+      padding: 50px;
+      font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    }
+
+    p {
+      max-width: 400px;
+    }
+  </style>
+  <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+  <h1>Teeny Static Server</h1>
+  <form class="wf-form" id="loginForm" action="/login" method="POST" novalidate="">
+    <fieldset>
+      <legend>
+        <h1 class="wf-header-secondary">My Shortcuts³</h1>
+      </legend>
+      <div class="app-xsmall-margin-bottom wf-field"><label class="wf-field__label wf-u-visually-hidden"
+          for="wf-field-1">Username</label>
+        <div class="wf-field__content"><input id="wf-field-1" required="" aria-required="true"
+            class="wf-field__component" autocomplete="off" name="username" placeholder="Username" type="email"
+            autocorrect="off" value=""></div>
+      </div>
+      <div class="app-xsmall-margin-bottom wf-field"><label class="wf-field__label wf-u-visually-hidden"
+          for="wf-field-2">Password</label>
+        <div class="wf-field__content"><input id="wf-field-2" aria-describedby="wf-field-hint-2" required=""
+            aria-required="true" class="wf-field__component wf-field__component--hint" autocomplete="off"
+            name="password" placeholder="Password" type="password" value="">
+          <div class="wf-field-footer">
+            <div class="wf-field-footer__hint" id="wf-field-hint-2"><a href="/auth/forgot">Forgot your password?</a>
+            </div>
+          </div>
+        </div>
+      </div><button type="submit" class="wf-button wf-button--primary wf-button--block"><span
+          class="wf-button__label">Log in</span></button>
+      <div class="app-login-instructions">New to My Shortcuts³ ? <a href="/auth/signup">Register</a> instantly!</div>
+    </fieldset>
+  </form>
+
+
+    <form id="apiForm" action="/api/users" method="post">
+      <button type="submit">POST users API</button>
+    </form>
+
+  <script src="toto.js"></script>
+
+
+</body>
+
+</html>
