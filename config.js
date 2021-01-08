@@ -7,61 +7,55 @@ module.exports = {
     notAuthenticatedRedirectTo: "/login",
     failureRedirectTo: "/login?auth=401",
   },
-  database: (DB_TYPE) => {
-    return {
-      type: DB_TYPE.LOWDB,
-      location: path.join(process.cwd(), "db.json"),
-    };
-  },
+  database: (DB_TYPE) => ({
+    type: DB_TYPE.LOWDB,
+    location: path.join(process.cwd(), "db.json"),
+  }),
   favicon: path.join(process.cwd(), "public/favicon.ico"),
-  static: ({ utils }) => {
-    return [
-      {
-        virtual: "",
-        root: path.join(process.cwd(), "public/js"),
-        maxAge: utils.isProd() ? utils.ONE_YEAR : 0,
+  static: ({ utils }) => [
+    {
+      virtual: "",
+      root: path.join(process.cwd(), "public/js"),
+      maxAge: utils.isProd() ? utils.ONE_YEAR : 0,
+    },
+    {
+      virtual: "",
+      root: path.join(process.cwd(), "public/css"),
+      maxAge: utils.isProd() ? utils.ONE_YEAR : 0,
+    },
+  ],
+  routes: ({ utils }) => [
+    {
+      route: "/",
+      method: "GET",
+      auth: true,
+      file: "index.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    {
+      route: "/login",
+      method: "GET",
+      auth: false,
+      file: "login.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    {
+      route: "/api/users",
+      method: "POST",
+      auth: true,
+      action: (req, res) => {
+        utils.db.findUser({ username: "testing" }, (err, user) => {
+          res.send(err ? { status: "error" } : user);
+        });
       },
-      {
-        virtual: "",
-        root: path.join(process.cwd(), "public/css"),
-        maxAge: utils.isProd() ? utils.ONE_YEAR : 0,
-      },
-    ];
-  },
-  routes: ({ utils }) => {
-    return [
-      {
-        route: "/",
-        method: "GET",
-        auth: true,
-        file: "index.html",
-        root: path.join(process.cwd(), "public"),
-      },
-      {
-        route: "/login",
-        method: "GET",
-        auth: false,
-        file: "login.html",
-        root: path.join(process.cwd(), "public"),
-      },
-      {
-        route: "/api/users",
-        method: "POST",
-        auth: true,
-        action: (req, res) => {
-          utils.db.findUser({ username: "testing" }, (err, user) => {
-            res.send(err ? { status: "error" } : user);
-          });
-        },
-      },
-      {
-        route: "*",
-        method: "all",
-        auth: false,
-        file: "404.html",
-        status: utils.constants.HTTP_NOT_FOUND,
-        root: path.join(process.cwd(), "public"),
-      },
-    ];
-  },
+    },
+    {
+      route: "*",
+      method: "all",
+      auth: false,
+      file: "404.html",
+      status: utils.constants.HTTP_NOT_FOUND,
+      root: path.join(process.cwd(), "public"),
+    },
+  ],
 };
