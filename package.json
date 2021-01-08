@@ -19,7 +19,7 @@
   "scripts": {
     "bump": "node ./configuration/release/index.js -t bump",
     "dev": "nodemon bin/teeny-static-server.js -- --config config.js",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular -c changelog.json",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "lint:fix": "eslint --fix --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
     "lint": "eslint --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
     "prettier:fix": "prettier --loglevel error --write \"src/**/*.{js,jsx}\"",
