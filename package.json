@@ -22,8 +22,8 @@
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "lint:fix": "eslint --fix --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
     "lint": "eslint --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
-    "prettier:fix": "prettier --loglevel error --write \"src/**/*.{js,jsx}\"",
-    "prettier:all": "npm-run-all --serial prettier:fix lint:js:fix",
+    "prettier:fix": "prettier --loglevel error --write \"{src/**/*.js,configuration/**/*.js,bin/**/*.js}\"",
+    "prettier:all": "npm-run-all --serial prettier:fix lint:fix",
     "release": "node ./configuration/release/index.js -t release",
     "start": "node bin/teeny-static-server.js"
   },
@@ -35,6 +35,7 @@
     "compare-versions": "3.6.0",
     "conventional-changelog-cli": "2.1.1",
     "cross-env": "7.0.3",
+    "eslint-config-prettier": "7.1.0",
     "eslint": "7.17.0",
     "husky": "4.3.6",
     "inquirer": "7.3.3",

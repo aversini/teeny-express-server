@@ -278,11 +278,13 @@ module.exports = {
       {
         line: {
           exceptions: ["-", "+"],
-          markers: ["=", "!"], // space here to support sprockets directives
+          // space here to support sprockets directives
+          markers: ["=", "!"],
         },
         block: {
           exceptions: ["-", "+"],
-          markers: ["=", "!"], // space here to support sprockets directives
+          // space here to support sprockets directives
+          markers: ["=", "!"],
           balanced: true,
         },
       },

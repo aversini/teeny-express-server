@@ -55,8 +55,9 @@ router.post("/login", function (req, res, next) {
 router.post("/signup", (req, res) => {
   const password = req.body.password;
   const username = req.body.username;
-  const host = `${req.protocol}://${req.headers.host}`;
+  // const host = `${req.protocol}://${req.headers.host}`;
 
+  // eslint-disable-next-line no-unused-vars
   auth.prepareForSignup(username, password, (err, msg, token) => {
     if (err) {
       res.redirect(config.auth.failureRedirectTo);

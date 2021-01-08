@@ -1,28 +1,28 @@
 module.exports = {
   rules: {
     // require or disallow initialization in variable declarations
-    'init-declarations': 'off',
+    "init-declarations": "off",
     // disallow catch clause parameters from shadowing variables in the outer scope
-    'no-catch-shadow': 'off',
+    "no-catch-shadow": "off",
     // disallow deleting variables
-    'no-delete-var': 'off',
+    "no-delete-var": "off",
     // disallow labels that share a name with a variable
-    'no-label-var': 'off',
+    "no-label-var": "off",
     // disallow specified global variables
-    'no-restricted-globals': 'off',
+    "no-restricted-globals": "off",
     // disallow identifiers from shadowing restricted names
-    'no-shadow-restricted-names': 'off',
+    "no-shadow-restricted-names": "off",
     // disallow variable declarations from shadowing variables declared in the outer scope
-    'no-shadow': 'off',
+    "no-shadow": "off",
     // disallow the use of undeclared variables unless mentioned in /*global */ comments
-    'no-undef': 'off',
+    "no-undef": "off",
     // disallow initializing variables to undefined
-    'no-undef-init': 'off',
+    "no-undef-init": "off",
     // disallow the use of undefined as an identifier
-    'no-undefined': 'warn',
+    "no-undefined": "warn",
     // disallow unused variables
-    'no-unused-vars': 'off',
+    "no-unused-vars": "off",
     // disallow the use of variables before they are defined
-    'no-use-before-define': 'off'
-  }
+    "no-use-before-define": "off",
+  },
 };
