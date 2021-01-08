@@ -30,7 +30,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "11.0.0",
     "@commitlint/cli": "11.0.0",
-    "async": "3.2.0",
+    "async": "2.6.1",
     "babel-eslint": "10.1.0",
     "compare-versions": "3.6.0",
     "conventional-changelog-cli": "2.1.1",
