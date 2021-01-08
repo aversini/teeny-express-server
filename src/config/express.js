@@ -82,6 +82,7 @@ if (utils.isProd()) {
  */
 app.use(
   session({
+    name: "TEENY-STATIC-SERVER",
     secret: "ceci est un secret bien garde",
     resave: false,
     saveUninitialized: false,
