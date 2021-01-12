@@ -1,18 +1,15 @@
 {
   "bin/**/*.js": [
-    "tslint --config ./tslint.json --fix",
     "prettier --write",
     "eslint --fix",
     "git add"
   ],
   "configuration/**/*.js": [
-    "tslint --config ./tslint.json --fix",
     "prettier --write",
     "eslint --fix",
     "git add"
   ],
   "src/**/*.js": [
-    "tslint --config ./tslint.json --fix",
     "prettier --write",
     "eslint --fix",
     "git add"
