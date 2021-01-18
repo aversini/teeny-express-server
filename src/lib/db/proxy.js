@@ -18,4 +18,5 @@ module.exports = {
   DB_TYPE,
   addUser: db.addUser,
   findUser: db.findUser,
+  updateUser: db.updateUser,
 };

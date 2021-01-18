@@ -2,6 +2,8 @@ const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const { nanoid } = require("nanoid");
 
+const DB_NAME = "users";
+
 const init = (location) => {
   const adapter = new FileSync(location);
   const db = low(adapter);
@@ -10,26 +12,53 @@ const init = (location) => {
     users: [],
   }).write();
 
-  const findUser = ({ username, id }, done) => {
-    const res = username
-      ? db.get("users").filter({ name: username }).value()
-      : db.get("users").filter({ id }).value();
-    if (res.length) {
+  const findUser = ({ username, id, token }, done) => {
+    let res;
+
+    if (username) {
+      res = db.get(DB_NAME).filter({ name: username.toLowerCase() }).value();
+    } else if (id) {
+      res = db.get(DB_NAME).filter({ id }).value();
+    } else if (token) {
+      res = db.get(DB_NAME).filter({ token }).value();
+    }
+
+    if (res && res.length) {
       return done(null, res[0]);
     }
     return done(1);
   };
 
-  const addUser = ({ username, encryptedPassword, salt }, done) => {
+  const updateUser = ({ username, ...rest }, done) => {
+    const pos = db.get(DB_NAME).find({ name: username.toLowerCase() });
+    const user = pos.value();
+
+    if (user) {
+      pos
+        .assign({
+          ...rest,
+        })
+        .write();
+
+      return done(null, user);
+    }
+    return 1;
+  };
+
+  const addUser = (
+    { username, encryptedPassword, salt, token, active },
+    done
+  ) => {
     const id = nanoid();
 
-    db.get("users")
+    db.get(DB_NAME)
       .push({
         id: `${username}-${id}`,
-        active: true,
-        name: username,
+        active,
+        name: username.toLowerCase(),
         encryptedPassword,
         salt,
+        token,
       })
       .write();
     return done(null, username);
@@ -38,6 +67,7 @@ const init = (location) => {
   return {
     addUser,
     findUser,
+    updateUser,
   };
 };
 

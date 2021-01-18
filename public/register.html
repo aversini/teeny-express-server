@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teeny Static Server: Login</title>
+  <title>Teeny Static Server: Register</title>
   <style>
     body {
       padding: 50px;
@@ -20,10 +20,10 @@
 
 <body>
   <h1>Teeny Static Server</h1>
-  <form id="loginForm" action="/login" method="POST" novalidate="">
+  <form id="loginForm" action="/register" method="POST" novalidate="">
     <fieldset>
       <legend>
-        <h1>Login</h1>
+        <h1>Register</h1>
       </legend>
 
       <div>
@@ -38,15 +38,16 @@
           name="password" placeholder="Password" type="password" value="">
       </div>
 
-      <div id="wf-field-hint-2">
-        <a href="/forgot">Forgot your password?</a>
+      <div>
+        <label for="wf-field-3">Password Confirmation</label>
+        <input id="wf-field-3" aria-describedby="wf-field-hint-3" required aria-required="true" autocomplete="off"
+          name="passwordConfirmation" placeholder="Password Confirmation" type="password" value="">
       </div>
 
       <button type="submit">
-        <span>Log in</span>
+        <span>Register</span>
       </button>
 
-      <div>New to My Shortcuts³ ? <a href="/register">Register</a> instantly!</div>
     </fieldset>
   </form>
 

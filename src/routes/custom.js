@@ -24,7 +24,7 @@ const ensureLogin = () =>
  */
 config
   .routes({ utils })
-  .forEach(({ auth, method, route, file, root, action, status }) => {
+  .forEach(({ auth, method, route, file, root, action, status, token }) => {
     const isProtected = auth
       ? ensureLogin()
       : (req, res, next) => {
@@ -34,14 +34,30 @@ config
     if (file) {
       // this is a static route, just sending the file as is.
       router[method.toLowerCase()](route, isProtected, (req, res) => {
-        /*
-         * if (status) {
-         *   res.sendStatus(status);
-         * }
-         */
-        res.status(status || utils.constants.HTTP_OK).sendFile(file, {
-          root,
-        });
+        if (!token) {
+          res.status(status || utils.constants.HTTP_OK).sendFile(file, {
+            root,
+          });
+        } else {
+          const tokenQuery = req.query.token;
+          if (
+            tokenQuery &&
+            typeof tokenQuery !== "undefined" &&
+            tokenQuery !== ""
+          ) {
+            utils.db.findUser({ token: tokenQuery }, (err) => {
+              if (err) {
+                res.redirect(config.auth.login.failureRedirectTo);
+              } else {
+                res.status(status || utils.constants.HTTP_OK).sendFile(file, {
+                  root,
+                });
+              }
+            });
+          } else {
+            res.redirect(config.auth.login.failureRedirectTo);
+          }
+        }
       });
     } else if (action) {
       // this is an API route, using the provided callback action.

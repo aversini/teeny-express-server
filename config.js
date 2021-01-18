@@ -3,9 +3,30 @@ module.exports = {
   port: 3000,
   proxyPath: "/analytics",
   auth: {
-    successRedirectTo: "/",
-    notAuthenticatedRedirectTo: "/login",
-    failureRedirectTo: "/login?auth=401",
+    login: {
+      successRedirectTo: "/",
+      notAuthenticatedRedirectTo: "/login",
+      failureRedirectTo: "/login?auth=401",
+    },
+    register: {
+      successRedirectTo: "/",
+      failureRedirectTo: "/login?auth=500",
+      alreadyExistsRedirectTo: "/login?auth=403",
+      // valid options are "json" or "none"
+      confirmation: "json",
+    },
+    activate: {
+      successRedirectTo: "/",
+      failureRedirectTo: "/login?auth=406",
+    },
+    forgot: {
+      failureRedirectTo: "/login?auth=500",
+    },
+    update: {
+      updatePassword: "/update",
+      successRedirectTo: "/login?auth=202",
+      failureRedirectTo: "/login?auth=500",
+    },
   },
   database: (DB_TYPE) => ({
     type: DB_TYPE.LOWDB,
@@ -37,6 +58,28 @@ module.exports = {
       method: "GET",
       auth: false,
       file: "login.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    {
+      route: "/register",
+      method: "GET",
+      auth: false,
+      file: "register.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    {
+      route: "/forgot",
+      method: "GET",
+      auth: false,
+      file: "forgot.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    {
+      route: "/update",
+      method: "GET",
+      auth: false,
+      token: true,
+      file: "update.html",
       root: path.join(process.cwd(), "public"),
     },
     {

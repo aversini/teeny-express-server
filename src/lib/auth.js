@@ -1,14 +1,15 @@
 const utils = require("./utils");
-const strings = require("../config/constants").STRINGS;
+const constants = require("../config/constants");
+const strings = constants.STRINGS;
 
-const prepareForSignup = (username, password, done) => {
+const prepareForRegistration = ({ username, password, active }, done) => {
   utils.encryptString(password, null, (err, data) => {
     if (err) {
       return done(err);
     }
     utils.db.findUser({ username }, (_err, user) => {
       if (user) {
-        return done(1, strings.EMAIL_IN_USE);
+        return done(constants.HTTP_FORBIDDEN, strings.ACCOUNT_IN_USE);
       }
       const SMALL_TOKEN = 16;
       const token = utils.generateSalt(SMALL_TOKEN);
@@ -17,31 +18,100 @@ const prepareForSignup = (username, password, done) => {
           username: username.toLowerCase(),
           encryptedPassword: data.encryptedString,
           salt: data.salt,
-          active: false,
-          token,
+          active,
+          token: active ? "" : token,
         },
         (err, user) => {
-          if (user) {
+          if (!err && user) {
             return done(null, "", token);
           }
-          done(err, strings.INTERNAL_ERROR);
+          done(constants.HTTP_SERVER_ERROR, strings.INTERNAL_ERROR);
         }
       );
     });
   });
 };
 
-const authenticate = (username, password, done) => {
+const updatePasswordWithToken = ({ username, password, token }, done) => {
+  utils.encryptString(password, null, (err, data) => {
+    if (err) {
+      return done(err);
+    }
+    utils.db.findUser({ username }, (_err, user) => {
+      if (!user || user.token !== token) {
+        return done(constants.HTTP_FORBIDDEN, strings.INTERNAL_ERROR);
+      }
+      utils.db.updateUser(
+        {
+          username: username.toLowerCase(),
+          encryptedPassword: data.encryptedString,
+          salt: data.salt,
+          token: null,
+          active: true,
+        },
+        (err, user) => {
+          if (!err && user) {
+            return done(null, user.id);
+          }
+          done(constants.HTTP_SERVER_ERROR, strings.INTERNAL_ERROR);
+        }
+      );
+    });
+  });
+};
+
+const prepareForPasswordReset = ({ username }, done) => {
+  utils.db.findUser({ username }, (err) => {
+    if (err) {
+      return done(constants.HTTP_SERVER_ERROR, strings.INTERNAL_ERROR);
+    }
+    const SMALL_TOKEN = 16;
+    const token = utils.generateSalt(SMALL_TOKEN);
+    utils.db.updateUser(
+      {
+        username: username.toLowerCase(),
+        token,
+        active: true,
+      },
+      (err, user) => {
+        if (!err && user) {
+          return done(null, "", token);
+        }
+        done(constants.HTTP_SERVER_ERROR, strings.INTERNAL_ERROR);
+      }
+    );
+  });
+};
+
+const activate = (token, done) => {
+  utils.db.findUser({ token }, (err, user) => {
+    if (err) {
+      return done(err);
+    }
+    utils.db.updateUser(
+      { username: user.name, token: "", active: true },
+      (err) => done(err)
+    );
+  });
+};
+
+const authenticate = ({ username, password }, done) => {
   utils.db.findUser({ username }, function (err, user) {
     if (err) {
-      return done(null, false, { message: strings.BAD_CREDENTIALS });
+      return done(constants.HTTP_UNAUTHORIZED, false, {
+        message: strings.BAD_CREDENTIALS,
+      });
     }
     if (!user) {
-      return done(null, false, { message: strings.BAD_CREDENTIALS });
+      return done(constants.HTTP_UNAUTHORIZED, false, {
+        message: strings.BAD_CREDENTIALS,
+      });
     }
 
     if (user && !user.active) {
-      return done(null, false, { message: strings.NOT_ACTIVE_YET });
+      return done(constants.HTTP_UNAUTHORIZED, false, {
+        message: strings.NOT_ACTIVE_YET,
+      });
     }
 
     const options = {
@@ -71,7 +141,18 @@ const authenticate = (username, password, done) => {
   });
 };
 
+const getActivationURL = ({ host, token }) =>
+  `${host}/activate/new?token=${token}`;
+
+const getResetPasswordURL = ({ host, token }) =>
+  `${host}/activate/reset?token=${token}`;
+
 module.exports = {
+  activate,
   authenticate,
-  prepareForSignup,
+  getActivationURL,
+  getResetPasswordURL,
+  prepareForRegistration,
+  prepareForPasswordReset,
+  updatePasswordWithToken,
 };
