@@ -7,11 +7,20 @@ const config = argv.config
 
 const DB_TYPE = {
   LOWDB: "lowdb",
+  MONGODB: "mongodb",
 };
 
 let db;
-if (config.database(DB_TYPE).type === DB_TYPE.LOWDB) {
-  db = require("./lowdb").init(config.database(DB_TYPE).location);
+switch (config.database(DB_TYPE).type) {
+  case DB_TYPE.LOWDB:
+    db = require("./lowdb/lowdb").init(config.database(DB_TYPE).location);
+    break;
+  case DB_TYPE.MONGODB:
+    db = require("./mongodb/mongodb").init();
+    break;
+
+  default:
+    break;
 }
 
 module.exports = {

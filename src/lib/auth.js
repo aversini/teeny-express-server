@@ -89,8 +89,10 @@ const activate = (token, done) => {
       return done(err);
     }
     utils.db.updateUser(
-      { username: user.name, token: "", active: true },
-      (err) => done(err)
+      { username: user.username, token: "", active: true },
+      (err) => {
+        done(err);
+      }
     );
   });
 };

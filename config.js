@@ -1,7 +1,14 @@
 const path = require("path");
 module.exports = {
   port: 3000,
-  proxyPath: "/analytics",
+  proxyPass: "/analytics",
+  database: (DB_TYPE) => ({
+    //  type: DB_TYPE.LOWDB,
+
+    // location: path.join(process.cwd(), "db.json"),
+    type: DB_TYPE.MONGODB,
+    location: path.join(process.cwd(), "tmp/DB"),
+  }),
   auth: {
     login: {
       successRedirectTo: "/",
@@ -28,10 +35,6 @@ module.exports = {
       failureRedirectTo: "/login?auth=500",
     },
   },
-  database: (DB_TYPE) => ({
-    type: DB_TYPE.LOWDB,
-    location: path.join(process.cwd(), "db.json"),
-  }),
   favicon: path.join(process.cwd(), "public/favicon.ico"),
   static: ({ utils }) => [
     {

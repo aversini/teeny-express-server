@@ -16,7 +16,10 @@ const init = (location) => {
     let res;
 
     if (username) {
-      res = db.get(DB_NAME).filter({ name: username.toLowerCase() }).value();
+      res = db
+        .get(DB_NAME)
+        .filter({ username: username.toLowerCase() })
+        .value();
     } else if (id) {
       res = db.get(DB_NAME).filter({ id }).value();
     } else if (token) {
@@ -30,7 +33,7 @@ const init = (location) => {
   };
 
   const updateUser = ({ username, ...rest }, done) => {
-    const pos = db.get(DB_NAME).find({ name: username.toLowerCase() });
+    const pos = db.get(DB_NAME).find({ username: username.toLowerCase() });
     const user = pos.value();
 
     if (user) {
@@ -55,7 +58,7 @@ const init = (location) => {
       .push({
         id: `${username}-${id}`,
         active,
-        name: username.toLowerCase(),
+        username: username.toLowerCase(),
         encryptedPassword,
         salt,
         token,

@@ -9,6 +9,7 @@ const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
 const constants = require("./constants");
+const mongoose = require("mongoose");
 const utils = require("../lib/utils");
 const MemoryStore = require("memorystore")(session);
 
@@ -127,6 +128,21 @@ config.static({ utils }).forEach(({ root, maxAge, virtual }) => {
   );
 });
 app.use(favicon(config.favicon));
+
+/**
+ *
+ * DATABASE CONFIGURATION
+ *
+ */
+const mongoUri =
+  process.env.ATLAS_DB_URI || "mongodb://localhost/teeny-server-s";
+if (config.database(utils.DB_TYPE).type === utils.DB_TYPE.MONGODB) {
+  mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    autoIndex: false,
+    useUnifiedTopology: true,
+  });
+}
 
 /**
  *
