@@ -4,7 +4,7 @@
 
 It provides some default out of the box:
 
-- Authentication via Passport
+- Authentication via [Passport](http://passportjs.org/)
   - Registration
   - Registration verification
   - Session expiration
@@ -52,24 +52,16 @@ const path = require("path");
 
 module.exports = {
   /**
-   * Port the server will listen to
+   * Port the server will listen to.
    */
   port: 3000,
-  /**
-   * ProxyPass used in case you have configured this server to
-   * be setup behind another one, such as Apache. The example below
-   * assume the following configuration in Apache:
-   *   ProxyPass /analytics http://localhost:3000
-   *   ProxyPassReverse /analytics http://localhost:3000
-   */
-  proxyPass: "/analytics",
   /**
    * Database configuration.
    */
   database: (DB_TYPE) => ({
     /**
      * The type of database to use for this project.
-     * One of DB_TYPE.MONGODB or DB_TYPE.LOWDB
+     * One of DB_TYPE.MONGODB or DB_TYPE.LOWDB.
      */
     type: DB_TYPE.MONGODB,
     /**
@@ -135,19 +127,165 @@ module.exports = {
        */
       confirmation: "json",
     },
-    activate: {},
-    forgot: {},
-    update: {},
+    activate: {
+      /**
+       * Where to redirect to when a user is hitting the "activate" URL provided
+       * during registration if the confirmation choice was "json" (see above).
+       */
+      successRedirectTo: "/",
+      /**
+       * Where to redirect to when a user is hitting an "activate " URL that is
+       * invalid (invalid token, or it's been used before).
+       */
+      failureRedirectTo: "/login?auth=406",
+    },
+    forgot: {
+      /**
+       * Where to redirect to when a user ask for their password to be reset, but
+       * the request failed.
+       */
+      failureRedirectTo: "/login?auth=500",
+    },
+    update: {
+      /**
+       * What is the corresponding static route where password reset activation
+       * requests should be routed to. Please see the special "token" key provided
+       * in the static route.
+       */
+      updatePassword: "/update",
+      /**
+       * Where to redirect to when password reset has been successful.
+       */
+      successRedirectTo: "/login?auth=202",
+      /**
+       * Where to redirect to when password reset has not been successful.
+       */
+      failureRedirectTo: "/login?auth=500",
+    },
   },
+  /**
+   * What favicon to use for this application.
+   */
   favicon: path.join(process.cwd(), "public/favicon.ico"),
-  static: ({ utils }) => [],
-  routes: ({ utils }) => [],
+  /**
+   * List of static path that needs special caching. For example,
+   * JavaScript, CSS or images files. Each routes can use the "utils" helper
+   * that provides a few constants, such as times in milliseconds that can
+   * be used for caching expiration (but you can use your own if needed):
+   *  - utils.TWENTY_FOUR_HOURS
+   *  - utils.TWO_WEEKS
+   *  - utils.ONE_YEAR
+   */
+  static: ({ utils }) => [
+    {
+      /**
+       * Use this option to create a virtual path prefix (where the path does
+       * not actually exist in the file system) for files that are served.
+       */
+      virtual: "",
+      /**
+       * This specifies the root directory from which to serve static assets.
+       */
+      root: path.join(process.cwd(), "public/js"),
+      /**
+       * Set the max-age property of the Cache-Control header in milliseconds or
+       * a string in ms format (see https://www.npmjs.com/package/ms).
+       */
+      maxAge: utils.isProd() ? utils.ONE_YEAR : 0,
+    },
+  ],
+  /**
+   * List of middleware and HTTP method routes (such as get, put, post, and so on).
+   * Based on the keys provided, Teeny Static Server will interpret them as either
+   * pure redirect to a static file or pure API request. If the special key "token"
+   * is used and a token is available in the server (for example during activation),
+   * it will be passed as a parameter to the corresponding URL, as in url?token=xxx.
+   */
+  routes: ({ utils }) => [
+    /**
+     * Example for a login page.
+     * - route is the path to listen to
+     * - method is the HTTP method (get, put, post, etc.)
+     * - auth is a boolean indicating this route should not be protected by authentication
+     * - file is the actual file to render when the route is resolved
+     * - root is root directory from which to serve the file.
+     */
+    {
+      route: "/login",
+      method: "GET",
+      auth: false,
+      file: "login.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    /**
+     * Example for a main page.
+     * - route is the path to listen to
+     * - method is the HTTP method (get, put, post, etc.)
+     * - auth is a boolean indicating this route should be protected by authentication
+     * - file is the actual file to render when the route is resolved
+     * - root is root directory from which to serve the file.
+     */
+    {
+      route: "/",
+      method: "GET",
+      auth: true,
+      file: "index.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    /**
+     * Example for a reset password page.
+     * - route is the path to listen to
+     * - method is the HTTP method (get, put, post, etc.)
+     * - auth is a boolean indicating this route should not be protected by authentication
+     * - token is a boolean indicating that any activation token should be passed as a param
+     * - file is the actual file to render when the route is resolved
+     * - root is root directory from which to serve the file.
+     */
+    {
+      route: "/update",
+      method: "GET",
+      auth: false,
+      token: true,
+      file: "update.html",
+      root: path.join(process.cwd(), "public"),
+    },
+    /**
+     * Example for an API.
+     * - route is the REST path
+     * - method is the HTTP method (post)
+     * - auth is a boolean indicating this route should be protected by authentication
+     * - action is accepting a method to run, receiving req, res and next
+     */
+    {
+      route: "/api/users",
+      method: "POST",
+      auth: true,
+      action: (req, res, next) => {
+        utils.db.findUser({ username: "testing" }, (err, user) => {
+          res.send(err ? { status: "error" } : user);
+        });
+      },
+    },
+    /**
+     * The last route should often be a catch all (*) and renders a 404 page.
+     */
+    {
+      route: "*",
+      method: "all",
+      auth: false,
+      file: "404.html",
+      status: utils.constants.HTTP_NOT_FOUND,
+      root: path.join(process.cwd(), "public"),
+    },
+  ],
 };
 ```
 
-## Mongo Shell
+## Appendix
 
-### List all users
+### Mongo Shell
+
+#### List all users
 
 ```sh
 > mongo mongodb://localhost/teeny-server-s
