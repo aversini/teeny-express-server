@@ -1,7 +1,8 @@
 # Teeny Static Server
 
 [![npm version](https://badge.fury.io/js/teeny-static-server.svg)](https://badge.fury.io/js/teeny-static-server)
-[![Dependency Status](https://david-dm.org/numical/teeny-static-server.svg)](https://david-dm.org/numical/teeny-static-server)
+<a href="https://david-dm.org/aversini/teeny-static-server"><img src="https://david-dm.org/aversini/teeny-static-server.svg" alt="Dependency Status"></a>
+<a href="https://david-dm.org/aversini/teeny-static-server/?type=dev"><img src="https://david-dm.org/aversini/teeny-static-server/dev-status.svg" alt="devDependency Status"></a>
 
 > Teeny Static Server is a simple configurable static server, powered by Express.
 
