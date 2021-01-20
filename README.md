@@ -1,4 +1,5 @@
 # Teeny Static Server
+[![npm version](https://badge.fury.io/js/teeny-static-server.svg)](https://badge.fury.io/js/teeny-static-server)
 
 > Teeny Static Server is a simple configurable static server, powered by Express.
 
