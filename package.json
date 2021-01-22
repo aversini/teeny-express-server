@@ -17,7 +17,7 @@
     "src"
   ],
   "scripts": {
-    "bump": "npm run bump-and-release -t bump",
+    "bump": "bump-and-release -t bump -c \"./configuration/bump-and-release/config.js\"",
     "dev": "nodemon bin/teeny-static-server.js -- --config config.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "lint:fix": "eslint --fix --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
@@ -25,7 +25,7 @@
     "mongo:dev": "mkdir -p tmp/DB && mongod --dbpath tmp/DB/",
     "prettier:fix": "prettier --loglevel error --write \"{src/**/*.js,configuration/**/*.js,bin/**/*.js}\"",
     "prettier:all": "npm-run-all --serial prettier:fix lint:fix",
-    "release": "npm run bump-and-release -t release",
+    "release": "bump-and-release -t release -c \"./configuration/bump-and-release/config.js\"",
     "start": "node bin/teeny-static-server.js"
   },
   "devDependencies": {
