@@ -1,3 +1,7 @@
+## [0.1.1](https://github.com/aversini/teeny-express-server/compare/v0.1.0...v0.1.1) (2021-01-29)
+
+
+
 # [0.1.0](https://github.com/aversini/teeny-express-server/compare/v0.0.2...v0.1.0) (2021-01-22)
 
 ### Features
