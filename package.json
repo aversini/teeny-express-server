@@ -1,6 +1,6 @@
 {
   "name": "teeny-express-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "author": "Arno Versini",
   "description": "A small configurable static server powered by Express",
