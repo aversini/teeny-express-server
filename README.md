@@ -1,10 +1,10 @@
 # Teeny Static Server
 
-[![npm version](https://badge.fury.io/js/teeny-static-server.svg)](https://badge.fury.io/js/teeny-static-server)
-<a href="https://david-dm.org/aversini/teeny-static-server"><img src="https://david-dm.org/aversini/teeny-static-server.svg" alt="Dependency Status"></a>
-<a href="https://david-dm.org/aversini/teeny-static-server/?type=dev"><img src="https://david-dm.org/aversini/teeny-static-server/dev-status.svg" alt="devDependency Status"></a>
+[![npm version](https://badge.fury.io/js/teeny-express-server.svg)](https://badge.fury.io/js/teeny-express-server)
+<a href="https://david-dm.org/aversini/teeny-express-server"><img src="https://david-dm.org/aversini/teeny-express-server.svg" alt="Dependency Status"></a>
+<a href="https://david-dm.org/aversini/teeny-express-server/?type=dev"><img src="https://david-dm.org/aversini/teeny-express-server/dev-status.svg" alt="devDependency Status"></a>
 
-> Teeny Static Server is a simple configurable static server, powered by Express.
+> Teeny Express Server is a simple configurable static server, powered by Express.
 
 It provides some default out of the box:
 
@@ -34,7 +34,7 @@ It provides some default out of the box:
 
 ```sh
 > cd your-project
-> npm install --save teeny-static-server
+> npm install --save teeny-express-server
 ```
 
 ## Starting
@@ -43,7 +43,7 @@ Assuming you created a configuration file under `your-project/config.js`, you ca
 
 ```sh
 > cd your-project
-> npx teeny-static-server --config config.js
+> npx teeny-express-server --config config.js
 ```
 
 ## Configuration

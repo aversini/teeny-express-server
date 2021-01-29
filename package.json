@@ -1,16 +1,16 @@
 {
-  "name": "teeny-static-server",
+  "name": "teeny-express-server",
   "version": "0.1.0",
   "license": "MIT",
   "author": "Arno Versini",
   "description": "A small configurable static server powered by Express",
-  "homepage": "https://github.com/aversini/teeny-static-server",
+  "homepage": "https://github.com/aversini/teeny-express-server",
   "repository": {
     "type": "git",
-    "url": "git@github.com:aversini/teeny-static-server.git"
+    "url": "git@github.com:aversini/teeny-express-server.git"
   },
   "bin": {
-    "teeny-static-server": "bin/teeny-static-server.js"
+    "teeny-express-server": "bin/teeny-express-server.js"
   },
   "files": [
     "bin",
@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "bump": "bump-and-release -t bump -c \"./configuration/bump-and-release/config.js\"",
-    "dev": "nodemon bin/teeny-static-server.js -- --config config.js",
+    "dev": "nodemon bin/teeny-express-server.js -- --config config.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "lint:fix": "eslint --fix --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
     "lint": "eslint --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
@@ -26,7 +26,7 @@
     "prettier:fix": "prettier --loglevel error --write \"{src/**/*.js,configuration/**/*.js,bin/**/*.js}\"",
     "prettier:all": "npm-run-all --serial prettier:fix lint:fix",
     "release": "bump-and-release -t release -c \"./configuration/bump-and-release/config.js\"",
-    "start": "node bin/teeny-static-server.js"
+    "start": "node bin/teeny-express-server.js"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
