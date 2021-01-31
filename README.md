@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/teeny-express-server.svg)](https://badge.fury.io/js/teeny-express-server)
 <a href="https://david-dm.org/aversini/teeny-express-server"><img src="https://david-dm.org/aversini/teeny-express-server.svg" alt="Dependency Status"></a>
-<a href="https://david-dm.org/aversini/teeny-express-server/?type=dev"><img src="https://david-dm.org/aversini/teeny-express-server/dev-status.svg" alt="devDependency Status"></a>
+<a href="https://david-dm.org/aversini/teeny-express-server/?type=dev"><img src="https://david-dm.org/aversini/teeny-express-server/dev-status.svg" alt="devDependency Status"></a> [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3a25582928e8497d9ddf3f858001a56a)](https://app.codacy.com/gh/aversini/teeny-express-server?utm_source=github.com&utm_medium=referral&utm_content=aversini/teeny-express-server&utm_campaign=Badge_Grade)
 
 > Teeny Express Server is a simple configurable static server, powered by Express.
 
