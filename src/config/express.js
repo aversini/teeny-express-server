@@ -83,13 +83,13 @@ if (utils.isProd()) {
  */
 app.use(
   session({
-    name: "TEENY-EXPRESS-SERVER",
-    secret: "ceci est un secret bien garde",
-    resave: false,
-    saveUninitialized: false,
     cookie: {
       maxAge: utils.isProd() ? utils.TWO_WEEKS : utils.ONE_YEAR,
     },
+    name: "TEENY-EXPRESS-SERVER",
+    resave: false,
+    saveUninitialized: false,
+    secret: "ceci est un secret bien garde",
     store: new MemoryStore({
       // prune expired entries every 24h
       checkPeriod: utils.TWENTY_FOUR_HOURS,
@@ -138,8 +138,8 @@ const mongoUri =
   process.env.ATLAS_DB_URI || "mongodb://localhost/teeny-server-s";
 if (config.database(utils.DB_TYPE).type === utils.DB_TYPE.MONGODB) {
   mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
     autoIndex: false,
+    useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 }
@@ -167,8 +167,8 @@ if (!utils.isProd()) {
   app.use((err, req, res) => {
     res.status(err.status || constants.HTTP_SERVER_ERROR);
     res.render("error", {
-      message: err.message,
       error: err,
+      message: err.message,
     });
   });
 }
@@ -176,8 +176,8 @@ if (!utils.isProd()) {
 app.use((err, req, res) => {
   res.status(err.status || constants.HTTP_SERVER_ERROR);
   res.render("error", {
-    message: err.message,
     error: {},
+    message: err.message,
   });
 });
 

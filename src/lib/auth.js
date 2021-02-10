@@ -15,11 +15,11 @@ const prepareForRegistration = ({ username, password, active }, done) => {
       const token = utils.generateSalt(SMALL_TOKEN);
       utils.db.addUser(
         {
-          username: username.toLowerCase(),
+          active,
           encryptedPassword: data.encryptedString,
           salt: data.salt,
-          active,
           token: active ? "" : token,
+          username: username.toLowerCase(),
         },
         (err, user) => {
           if (!err && user) {
@@ -43,11 +43,11 @@ const updatePasswordWithToken = ({ username, password, token }, done) => {
       }
       utils.db.updateUser(
         {
-          username: username.toLowerCase(),
+          active: true,
           encryptedPassword: data.encryptedString,
           salt: data.salt,
           token: null,
-          active: true,
+          username: username.toLowerCase(),
         },
         (err, user) => {
           if (!err && user) {
@@ -69,9 +69,9 @@ const prepareForPasswordReset = ({ username }, done) => {
     const token = utils.generateSalt(SMALL_TOKEN);
     utils.db.updateUser(
       {
-        username: username.toLowerCase(),
-        token,
         active: true,
+        token,
+        username: username.toLowerCase(),
       },
       (err, user) => {
         if (!err && user) {
@@ -89,7 +89,7 @@ const activate = (token, done) => {
       return done(err);
     }
     utils.db.updateUser(
-      { username: user.username, token: "", active: true },
+      { active: true, token: "", username: user.username },
       (err) => {
         done(err);
       }
@@ -131,8 +131,8 @@ const authenticate = ({ username, password }, done) => {
       if (user.token) {
         utils.db.updateUser(
           {
-            username: username.toLowerCase(),
             token: null,
+            username: username.toLowerCase(),
           },
           () => done(null, user)
         );
@@ -154,7 +154,7 @@ module.exports = {
   authenticate,
   getActivationURL,
   getResetPasswordURL,
-  prepareForRegistration,
   prepareForPasswordReset,
+  prepareForRegistration,
   updatePasswordWithToken,
 };

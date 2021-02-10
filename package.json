@@ -10,37 +10,48 @@
     "url": "git@github.com:aversini/teeny-express-server.git"
   },
   "bin": {
-    "teeny-express-server": "bin/teeny-express-server.js"
+    "teeny-express-server": "bin/cli.js"
   },
   "files": [
     "bin",
     "src"
   ],
   "scripts": {
-    "bump": "bump-and-release -t bump -c \"./configuration/bump-and-release/config.js\"",
-    "dev": "nodemon bin/teeny-express-server.js -- --config config.js",
+    "bump": "bump-and-release -t bump",
+    "dev": "nodemon bin/cli.js -- --config config.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
-    "lint:fix": "eslint --fix --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
-    "lint": "eslint --color \"./configuration/**/*.js\" \"./src/**/*.js\" \"./bin/**/*.js\"",
+    "latest": "rimraf LATEST.md && conventional-changelog -o LATEST.md -n \"./configuration/latest/config.js\"",
+    "lint": "eslint --color \"./src/**/*.js\" \"./bin/*.js\" \"./configuration/**/*.js\"",
+    "lint:fix": "eslint --fix --color \"./src/**/*.js\" \"./bin/*.js\" \"./configuration/**/*.js\"",
     "mongo:dev": "mkdir -p tmp/DB && mongod --dbpath tmp/DB/",
-    "prettier:fix": "prettier --loglevel error --write \"{src/**/*.js,configuration/**/*.js,bin/**/*.js}\"",
+    "prettier:fix": "prettier --loglevel error --write \"{src/**/*.js,bin/**/*.js,configuration/**/*.js}\"",
     "prettier:all": "npm-run-all --serial prettier:fix lint:fix",
-    "release": "bump-and-release -t release -c \"./configuration/bump-and-release/config.js\"",
-    "start": "node bin/teeny-express-server.js"
+    "release": "bump-and-release -t release",
+    "start": "node bin/cli.js",
+    "test": "cross-env NODE_ENV=\"test\" TZ=UTC jest",
+    "test:coverage": "npm run test -- --coverage",
+    "test:watch": "npm run test -- --watch"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/cli": "^11.0.0",
+    "@testing-library/jest-dom": "^5.11.9",
     "babel-eslint": "^10.1.0",
-    "bump-and-release": "1.0.0",
+    "bump-and-release": "^1.2.0",
+    "compare-func": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^7.2.0",
-    "eslint": "^7.18.0",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.3",
-    "npm-run-all": "^4.1.5",
+    "eslint-plugin-sort-keys-fix": "^1.1.1",
+    "eslint": "^7.19.0",
+    "husky": "^5.0.9",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "q": "^1.5.1",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "compression": "1.7.4",

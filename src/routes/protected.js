@@ -31,11 +31,11 @@ const passportAuthentication = (req, res, next) => {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "username",
       passwordField: "password",
+      usernameField: "username",
     },
     function (username, password, done) {
-      auth.authenticate({ username, password }, done);
+      auth.authenticate({ password, username }, done);
     }
   )
 );
@@ -65,7 +65,7 @@ router.post("/register", (req, res, next) => {
   const active = config.auth.register.confirmation === "none";
 
   auth.prepareForRegistration(
-    { username, password, active },
+    { active, password, username },
     (err, msg, token) => {
       if (err) {
         return res.redirect(config.auth.register.failureRedirectTo);
@@ -109,7 +109,7 @@ router.post("/update", (req, res) => {
   const password = req.body.password;
   const token = req.body.token;
 
-  auth.updatePasswordWithToken({ username, password, token }, (err) => {
+  auth.updatePasswordWithToken({ password, token, username }, (err) => {
     if (err) {
       res.redirect(config.auth.update.failureRedirectTo);
     } else {

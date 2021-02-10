@@ -71,13 +71,13 @@ const checkPassword = (opts, done) => {
 };
 
 module.exports = {
+  DB_TYPE: db.DB_TYPE,
+  ONE_YEAR: constants.ONE_YEAR,
   TWENTY_FOUR_HOURS: constants.TWENTY_FOUR_HOURS,
   TWO_WEEKS: constants.TWO_WEEKS,
-  ONE_YEAR: constants.ONE_YEAR,
-  DB_TYPE: db.DB_TYPE,
+  checkPassword,
   constants,
   db,
-  checkPassword,
   encryptString,
   generateSalt,
   isLocal,

@@ -56,12 +56,12 @@ const init = (location) => {
 
     db.get(DB_NAME)
       .push({
-        id: `${username}-${id}`,
         active,
-        username: username.toLowerCase(),
         encryptedPassword,
+        id: `${username}-${id}`,
         salt,
         token,
+        username: username.toLowerCase(),
       })
       .write();
     return done(null, username);

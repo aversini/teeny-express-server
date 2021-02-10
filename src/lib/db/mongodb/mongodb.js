@@ -33,12 +33,12 @@ const init = () => {
   ) => {
     const id = nanoid();
     const newUser = new User({
-      id: `${username}-${id}`,
       active,
-      username: username.toLowerCase(),
       encryptedPassword,
+      id: `${username}-${id}`,
       salt,
       token,
+      username: username.toLowerCase(),
     });
     newUser.save((err) => {
       done(err, newUser);
